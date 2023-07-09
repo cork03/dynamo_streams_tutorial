@@ -16,3 +16,9 @@ resource "aws_dynamodb_table" "dynamo_streams" {
     type = "N"
   }
 }
+
+resource "aws_lambda_event_source_mapping" "this" {
+  event_source_arn  = aws_dynamodb_table.dynamo_streams.stream_arn
+  function_name     = aws_lambda_function.dynamo_triggered.arn
+  starting_position = "LATEST"
+}

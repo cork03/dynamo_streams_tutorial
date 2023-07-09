@@ -1,15 +1,23 @@
-data "aws_iam_policy" "this" {
-  arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
-}
-
 data "aws_iam_policy_document" "this" {
-  source_policy_documents = [data.aws_iam_policy.this.policy]
   statement {
     effect = "Allow"
     actions = [
       "logs:CreateLogGroup",
+    ]
+    resources = ["arn:aws:logs:ap-northeast-1:463196187961:*"]
+  }
+  statement {
+    effect = "Allow"
+    actions = [
       "logs:CreateLogStream",
       "logs:PutLogEvents",
+    ]
+    resources = ["${aws_cloudwatch_log_group.this.arn}:*"]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
       "dynamodb:DescribeStream",
       "dynamodb:GetRecords",
       "dynamodb:GetShardIterator",
