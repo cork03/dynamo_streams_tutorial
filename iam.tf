@@ -25,6 +25,14 @@ data "aws_iam_policy_document" "this" {
     ]
     resources = ["*"]
   }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "sns:Publish"
+    ]
+    resources = [aws_sns_topic.this.arn]
+  }
 }
 
 module "this" {

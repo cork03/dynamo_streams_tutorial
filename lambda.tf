@@ -32,6 +32,12 @@ resource "aws_lambda_function" "dynamo_triggered" {
   runtime       = "python3.9"
   handler       = "dynamoTrigger.handler"
 
+  environment {
+    variables = {
+      SNS_TOPIC_ARN = aws_sns_topic.this.arn
+    }
+  }
+
   s3_bucket = aws_s3_bucket.this.bucket
   s3_key    = aws_s3_object.this.key
 
