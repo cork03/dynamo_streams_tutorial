@@ -21,4 +21,17 @@ resource "aws_lambda_event_source_mapping" "this" {
   event_source_arn  = aws_dynamodb_table.dynamo_streams.stream_arn
   function_name     = aws_lambda_function.dynamo_triggered.arn
   starting_position = "LATEST"
+
+  maximum_retry_attempts = 3
+
+  destination_config {
+    on_failure {
+      destination_arn = aws_sqs_queue.this.arn
+    }
+  }
+}
+
+resource "aws_lambda_event_source_mapping" "retry" {
+  event_source_arn = aws_sqs_queue.this.arn
+  function_name = aws_lambda_function.dynamo_triggered.arn
 }

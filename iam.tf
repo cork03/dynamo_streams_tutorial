@@ -33,6 +33,17 @@ data "aws_iam_policy_document" "this" {
     ]
     resources = [aws_sns_topic.this.arn]
   }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "sqs:SendMessage",
+      "sqs:ReceiveMessage",
+      "sqs:DeleteMessage",
+      "sqs:GetQueueAttributes"
+    ]
+    resources = [aws_sqs_queue.this.arn]
+  }
 }
 
 module "this" {
