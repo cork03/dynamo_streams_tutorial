@@ -12,7 +12,7 @@ data "aws_iam_policy_document" "this" {
       "logs:CreateLogStream",
       "logs:PutLogEvents",
     ]
-    resources = ["${aws_cloudwatch_log_group.this.arn}:*"]
+    resources = ["${module.dynamo_stream_lambda.cloudwatch_log_group_arn}:*"]
   }
 
   statement {
@@ -46,7 +46,7 @@ data "aws_iam_policy_document" "this" {
   }
 }
 
-module "this" {
+module "dynamo_lambda_role" {
   source     = "./modules/iamRole"
   name       = "dynamo_lambda"
   policy     = data.aws_iam_policy_document.this.json

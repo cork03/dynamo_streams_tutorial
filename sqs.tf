@@ -7,5 +7,5 @@ resource "aws_sqs_queue" "this" {
 }
 
 resource "aws_sqs_queue" "dead_letter" {
-    name = "my-queue-dead-letter"
+  name = "my-queue-dead-letter"
 }
