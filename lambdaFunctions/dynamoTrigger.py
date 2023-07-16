@@ -6,16 +6,18 @@ sns_client = boto3.client("sns")
 
 
 def handler(event, context):
-    print(event)
-    print(event["Records"])
-    user_ids = []
+    messages = []
     for record in event["Records"]:
         image = record["dynamodb"]["NewImage"]
-        user_ids.append(image["UserId"]["N"])
+        message = {
+            "userId": image["UserId"]["N"],
+            "status": image["Status"]["S"]
+        }
+        messages.append(message)
 
     params = {
         "TopicArn": os.environ["SNS_TOPIC_ARN"],
-        "Message": json.dumps(user_ids)
+        "Message": json.dumps(messages)
     }
 
     sns_client.publish(**params)

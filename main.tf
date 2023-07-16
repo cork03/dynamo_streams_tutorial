@@ -47,8 +47,6 @@ resource "aws_s3_bucket" "this" {
   bucket = random_pet.this.id
 }
 
-
-
 module "dynamo_stream_lambda" {
   source        = "./modules/lambda"
   source_file   = "${path.module}/lambdaFunctions/dynamoTrigger.py"
@@ -61,4 +59,16 @@ module "dynamo_stream_lambda" {
     SNS_TOPIC_ARN = aws_sns_topic.this.arn
   }
   lambda_iam_arn = module.dynamo_lambda_role.iam_role_arn
+}
+
+module "api_gateway_lambda" {
+  source        = "./modules/lambda"
+  source_file   = "${path.module}/lambdaFunctions/apiGatewayLambda.py"
+  output_path   = "${path.module}/functionsZips/apiGatewayLambda.zip"
+  s3_bucket_id  = aws_s3_bucket.this.id
+  s3_object_key = "apiGatewayLambda.zip"
+  function_name = "apiGatewayLambda"
+  handler       = "apiGatewayLambda.handler"
+  lambda_variables = {}
+  lambda_iam_arn = module.api_gateway_lambda_role.iam_role_arn
 }
