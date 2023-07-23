@@ -1,12 +1,14 @@
 import json
-import boto3
 import os
+
+import boto3
 
 sns_client = boto3.client("sns")
 
 
 def handler(event, context):
     messages = []
+    print(event)
     for record in event["Records"]:
         image = record["dynamodb"]["NewImage"]
         message = {

@@ -62,6 +62,14 @@ data "aws_iam_policy_document" "apiGatewayLambda" {
     ]
     resources = ["arn:aws:logs:ap-northeast-1:463196187961:*"]
   }
+   statement {
+    effect = "Allow"
+    actions = [
+      "logs:CreateLogStream",
+      "logs:PutLogEvents",
+    ]
+    resources = ["${module.api_gateway_lambda.cloudwatch_log_group_arn}:*"]
+  }
 }
 
 module "api_gateway_lambda_role" {
