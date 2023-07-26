@@ -6,15 +6,17 @@ def handler(event, context):
     print(event)
     post_data = json.loads(event["body"])
     print(post_data)
-    requests.get(post_data["SubscribeURL"])
+    if "SubscribeURL" in post_data:
+        requests.get(post_data["SubscribeURL"])
     messages = post_data["Message"]
     user_ids = []
     status = []
-    for record in messages:
-        user_ids.append(record["userId"])
-        status.append(record["status"])
-    print(user_ids)
-    print(status)
+    json_encoded = json.dumps(messages)
+    print(json_encoded)
+    json_decoded = json.loads(json_encoded)
+    print(type(json_decoded))
+    for record in json_decoded:
+        print(record)
     return {
         "statusCode": 200,
         "body": json.dumps({

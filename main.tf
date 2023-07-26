@@ -56,9 +56,10 @@ module "dynamo_stream_lambda" {
   function_name = "dynamoTriggered"
   handler       = "dynamoTrigger.handler"
   lambda_variables = {
-    SNS_TOPIC_ARN = aws_sns_topic.this.arn
+    SNS_TOPIC_ARN = aws_sns_topic.https.arn
   }
   lambda_iam_arn = module.dynamo_lambda_role.iam_role_arn
+  layers = []
 }
 
 module "api_gateway_lambda" {
@@ -71,4 +72,5 @@ module "api_gateway_lambda" {
   handler       = "apiGatewayLambda.handler"
   lambda_variables = {}
   lambda_iam_arn = module.api_gateway_lambda_role.iam_role_arn
+  layers = ["arn:aws:lambda:ap-northeast-1:770693421928:layer:Klayers-p39-requests:15"]
 }

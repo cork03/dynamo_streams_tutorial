@@ -31,7 +31,7 @@ data "aws_iam_policy_document" "this" {
     actions = [
       "sns:Publish"
     ]
-    resources = [aws_sns_topic.this.arn]
+    resources = [aws_sns_topic.https.arn]
   }
 
   statement {

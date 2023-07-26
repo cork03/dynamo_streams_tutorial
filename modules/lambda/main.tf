@@ -27,7 +27,7 @@ resource "aws_lambda_function" "this" {
   s3_bucket = var.s3_bucket_id
   s3_key    = aws_s3_object.this.key
 
-  layers = ["arn:aws:lambda:ap-northeast-1:770693421928:layer:Klayers-p39-requests:15"]
+  layers = var.layers
 
   role             = var.lambda_iam_arn
   source_code_hash = data.archive_file.this.output_base64sha256

@@ -21,6 +21,7 @@ def handler(event, context):
         "TopicArn": os.environ["SNS_TOPIC_ARN"],
         "Message": json.dumps(messages)
     }
+    print(params)
 
     sns_client.publish(**params)
 
