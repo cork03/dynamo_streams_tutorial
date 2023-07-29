@@ -31,11 +31,6 @@ resource "aws_lambda_event_source_mapping" "this" {
   }
 }
 
-resource "aws_lambda_event_source_mapping" "retry" {
-  event_source_arn = aws_sqs_queue.this.arn
-  function_name    = module.dynamo_stream_lambda.lambda_arn
-}
-
 //lambda bucket
 resource "random_pet" "this" {
   prefix = "learn-terraform-functions"

@@ -38,9 +38,6 @@ data "aws_iam_policy_document" "this" {
     effect = "Allow"
     actions = [
       "sqs:SendMessage",
-      "sqs:ReceiveMessage",
-      "sqs:DeleteMessage",
-      "sqs:GetQueueAttributes"
     ]
     resources = [aws_sqs_queue.this.arn]
   }
